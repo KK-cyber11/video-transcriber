@@ -1,0 +1,4 @@
+#!/bin/sh
+# 用法：scripts/v2md <链接或文件> [--out 目录] [--model small]
+HERE="$(cd "$(dirname "$0")" && pwd)"
+exec "$HERE/.venv/bin/python" "$HERE/v2md.py" "$@"

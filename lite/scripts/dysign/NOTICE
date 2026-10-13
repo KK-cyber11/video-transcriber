@@ -1,0 +1,5 @@
+本目录的 abogus.py、sm3.py、websign.py 来自 Douyin_TikTok_Download_API
+Copyright 2021-2026 Evil0ctal and contributors
+https://github.com/Evil0ctal/Douyin_TikTok_Download_API
+Licensed under the Apache License, Version 2.0（全文见 LICENSE-Apache-2.0）。
+修改：仅把 abogus.py 中 `from dtk.signing.native.sm3 import` 改为相对导入 `from .sm3 import`，其余未改动。
