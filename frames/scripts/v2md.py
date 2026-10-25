@@ -171,6 +171,26 @@ def douyin(url, d):
                "date": datetime.datetime.fromtimestamp(t).strftime("%Y-%m-%d") if t else U,
                "desc": info.get("desc") or "", "id": vid}
 
+def sph(url, d):
+    """视频号：调用外部下载器（见 docs_sph.md，需要元宝登录态）。未配置时提示保存本地文件。"""
+    dl = os.environ.get("SPH_DOWNLOADER")
+    if not dl or not os.path.isfile(dl):
+        sys.exit("视频号需要额外配置下载器（见仓库 docs_sph.md）；或先在微信里保存视频，再把文件路径传给 v2md。")
+    out = os.path.expanduser(os.environ.get("SPH_OUT", "~/videos/sph"))
+    env = {**os.environ, "DISPLAY": os.environ.get("SPH_DISPLAY", os.environ.get("DISPLAY", ":0"))}
+    r = subprocess.run([sys.executable, dl, "batch", url, "--browser", "chromium", "--output-dir", out],
+                       capture_output=True, text=True, env=env)
+    try: res = json.loads(r.stdout)
+    except Exception: sys.exit(f"视频号下载失败：{r.stdout[-800:]}\n{r.stderr[-800:]}")
+    items = res.get("results") or res.get("items") or []
+    f = None; title = U; au = U
+    for it in items if isinstance(items, list) else []:
+        f = it.get("file_path") or f; au = it.get("author") or au
+        title = it.get("title") or it.get("description") or title
+    if not f or not os.path.isfile(f): sys.exit(f"视频号下载失败：{json.dumps(res, ensure_ascii=False)[:1500]}")
+    return f, {"title": title, "author": au, "url": url, "date": U}
+
+
 def download(url, d):
     if re.search(r"douyin\.com|iesdouyin\.com", url):
         try:
@@ -184,7 +204,7 @@ def download(url, d):
         except Exception as e:
             print(f"[v2md] 小红书页面解析失败：{e}", file=sys.stderr)
     if "weixin.qq.com" in url or "channels.weixin" in url:
-        sys.exit("视频号链接无法在服务器端下载（需在微信内打开）。请先在微信里保存视频，再把文件路径传给 v2md。")
+        return sph(url, d)
     opts = {"outtmpl": f"{d}/%(id)s.%(ext)s", "quiet": True, "no_warnings": True, "format": "best[ext=mp4]/best"}
     try:
         info = yt_dlp.YoutubeDL(opts).extract_info(url, download=True)

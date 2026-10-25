@@ -41,7 +41,7 @@
 | 抖音（`douyin.com`、`v.douyin.com` 短链） | ✅ 公开视频 |
 | 小红书（`xiaohongshu.com`、`xhslink.com` / `xhslink.cn` 短链） | ✅ 公开视频笔记；图文笔记只保存正文 |
 | 本地视频/音频文件 | ✅ mp4、mov、m4a、mp3 等 |
-| **微信视频号** | ❌ **不支持**（只能在微信里打开），替代方案见下文 |
+| **微信视频号** | ⚠️ 默认不支持；可选配置元宝登录态下载器（见 [docs_sph.md](docs_sph.md)），或用下文替代方案 |
 | 其他平台、私密/付费/需登录内容 | ❌ 不支持 |
 
 系统：macOS（已在 Apple 芯片 Mac 上测试；Intel Mac 未测试，CPU 运行）、常见 Linux 发行版。
@@ -160,6 +160,8 @@ sh scripts/ocr ./transcripts/<名字>.mp4 00:01:08 00:01:12
 
 另一个办法：在微信里把视频保存到手机（作者允许下载时），再用本工具转写本地文件。
 
+**进阶（需要登录元宝）**：借助第三方技能，用元宝登录态直接下载视频号视频，再交给 v2md 转写。步骤、Linux 改动和风险见 [docs_sph.md](docs_sph.md)。
+
 ## 注意事项 / 免责声明
 
 - **抖音的实现方式**：脚本像普通未登录访客一样打开 douyin.com，获得游客身份（访客 cookie），再用移植自 [Evil0ctal/Douyin_TikTok_Download_API](https://github.com/Evil0ctal/Douyin_TikTok_Download_API)（Apache-2.0）的网页请求签名算法读取该视频信息。
@@ -192,7 +194,7 @@ A：多半是抖音更新了网页端或临时风控。稍后重试；仍不行�
 A：请用 App 里「分享 → 复制链接」得到的新链接；浏览器地址栏复制的链接常缺少访问参数，旧链接也会过期。
 
 **Q：能支持视频号吗？**
-A：不能，见上文「微信视频号：替代方案」。
+A：默认不能。可以按 [docs_sph.md](docs_sph.md) 配置元宝登录态下载器（需扫码登录，有失效和风控风险），或用上文「微信视频号：替代方案」。
 
 **Q：【存疑】太多怎么办？**
 A：用 frames 版（视频带字幕时效果明显）；或把常见专有名词写进 `scripts/glossary.txt`；或换用 `--model medium`。
