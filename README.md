@@ -1,8 +1,8 @@
-# video-transcriber：抖音 / 小红书视频 → 中文逐字稿
+# video-transcriber：抖音 / 小红书 / 视频号视频 → 中文逐字稿
 
 ![license](https://img.shields.io/badge/license-MIT-blue) ![python](https://img.shields.io/badge/python-3.10%2B-blue) ![platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux-lightgrey)
 
-把一条抖音或小红书的公开视频链接（或本地视频文件）转成简体中文逐字稿，并由你的 AI 助手（Claude Code、Cursor 等支持 `SKILL.md` 的 Agent）自动校对。语音识别在你自己的电脑上本地运行。
+把一条抖音、小红书或微信视频号的视频链接（或本地视频文件）转成简体中文逐字稿，并由你的 AI 助手（Claude Code、Cursor 等支持 `SKILL.md` 的 Agent）自动校对。语音识别在你自己的电脑上本地运行。 视频号需要先扫码登录一次元宝，详见 [docs_sph.md](docs_sph.md)。
 
 ## 简介
 
